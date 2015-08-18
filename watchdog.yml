@@ -1,0 +1,18 @@
+check:
+  endpoint: https://localhost/
+  retries: 3
+  options:
+    use_ssl: true
+    verify_mode: 0
+    headers:
+      - Host: yourdomain.com
+slack:
+  webhook: https://hooks.slack.com/services/..............
+  fail_msg: Watchdog has detected failure on the endpoint %{endpoint}
+stages:
+   - actions:
+       - service hhvm restart
+   - delay: 60
+     actions:
+      - sleep 10 && reboot &
+lock_file: /tmp/watchdog.lock
